@@ -9,6 +9,7 @@ import torch._dynamo.test_case
 from torch._dynamo.backends.debugging import ExplainWithBackend
 from torch._dynamo.backends.onnxrt import has_onnxruntime
 from torch._dynamo.backends.tvm import has_tvm
+from torch._dynamo.backends.ttnn import has_ttnn
 from torch._dynamo.testing import same
 from torch.testing._internal.inductor_utils import HAS_CUDA
 
@@ -129,6 +130,10 @@ class TestOptimizations(torch._dynamo.test_case.TestCase):
     @unittest.skipIf(not has_tvm(), "requires tvm")
     def test_tvm(self):
         self._check_backend_works("tvm")
+
+    @unittest.skipIf(not has_ttnn(), "requires ttnn")
+    def test_ttnn(self):
+        self._check_backend_works("ttnn")
 
     def test_list_backends(self):
         self.assertIn("inductor", torch._dynamo.list_backends())
